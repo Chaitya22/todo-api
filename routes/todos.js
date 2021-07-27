@@ -45,27 +45,6 @@ todoRouter
 				.catch((err) => next(err));
 		}
 	})
-	.put(Authenticate.verifyUser, (req, res, next) => {
-		const { colName, value, id } = req.body;
-		if (!colName) {
-			res.statusCode = 400;
-			res.setHeader('Content-Type', 'application/json');
-			res.json({ error: 'Provide a column that has to be updated' });
-		} else if (!(value && id)) {
-			res.statusCode = 400;
-			res.setHeader('Content-Type', 'application/json');
-			res.json({ error: 'Data insufficient' });
-		} else {
-			db
-				.query(`update todos set ${colName} = ? where id = ?`, [ value, id ])
-				.then((results) => {
-					res.statusCode = 200;
-					res.setHeader('Content-Type', 'application/json');
-					res.json(results);
-				})
-				.catch((err) => next(err));
-		}
-	})
 	.delete(Authenticate.verifyUser, (req, res, next) => {
 		const { id } = req.body;
 
